@@ -16,11 +16,11 @@ from common import check_dir, mask_tokens
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--gpu', type=str, default="1")
-    parser.add_argument('--dataset_pth', type=str, default='/content/ChangeTokenization/wiki_en.txt')
-    parser.add_argument('--snp_path', type=str, default='/content/output.model')  #
-    parser.add_argument('--vocab_size', type=int, default=32000)
-    parser.add_argument('--save_path', type=str, default='/content/change_tokenization/models/rawBert_rawTokenizer/')
-    parser.add_argument('--model_name', type=str, default='Bert_Wiki_32k')
+    parser.add_argument('--dataset_pth', type=str, default='/content/ChangeTokenization/en_wiki.txt')
+    parser.add_argument('--snp_path', type=str, default='/content/wiki_8k.model')  #
+    parser.add_argument('--vocab_size', type=int, default=8000)
+    parser.add_argument('--save_path', type=str, default='/content/models/rawBert_rawTokenizer/')
+    parser.add_argument('--model_name', type=str, default='Bert_Wiki_8k')
     return parser.parse_args()
 
 
