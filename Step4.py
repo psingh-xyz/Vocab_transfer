@@ -44,7 +44,7 @@ def get_mapping_matrices(mapping_file, new_vocab_size, old_vocab_size, embedding
                 # replace embeds with bad ones if use_bad_shift
                 shift = 3 if use_bad_shift and len(old_ids) > 1 else 0
 
-                old_ids = [min(old_vocab_size, -int(idx) + shift) for idx in old_ids]
+                old_ids = [min(old_vocab_size -1, -int(idx) + shift) for idx in old_ids]
                 local_denominator = len(old_ids)
                 for idx in old_ids:
                     mapping_matrix[new_idx, idx] += 1. / local_denominator
@@ -78,8 +78,8 @@ def parse_args():
     voc_size = 8
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--mapping_file_1', type=str, default=f'/content/wiki_medical_8k_matcher_f1.tsv')
-    parser.add_argument('--mapping_file_2', type=str, default=f'/content/wiki_medical_8k_matcher_f2.tsv')
+    parser.add_argument('--mapping_file_1', type=str, default=f'/content/thesis/matched/wiki_medical_8k_matcher_f1.tsv')
+    parser.add_argument('--mapping_file_2', type=str, default=f'/content/thesis/matched/wiki_medical_8k_matcher_f1.tsv')
     parser.add_argument('--source_bert_model', type=str, default=f'/content/models/rawBert_rawTokenizer/Bert_Wiki_8k/')
     parser.add_argument('--new_vocab_size', type=int, default=voc_size * 1000)
     parser.add_argument('--old_vocab_size', type=int, default=voc_size * 1000)
@@ -134,3 +134,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
