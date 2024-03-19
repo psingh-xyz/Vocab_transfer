@@ -5,7 +5,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--wiki_vocab', type=str, default='/content/wiki_8k.vocab')
     parser.add_argument('--task_vocab', type=str, default='/content/medical_8k.vocab')
-    parser.add_argument('--out_vocab', type=str, default='/content/tokenizers/matched/wiki_medical_8k')
+    parser.add_argument('--out_vocab', type=str, default='/content/matched/wiki_medical_8k')
     parser.add_argument('--matcher', type=int, default=1)
     return parser.parse_args()
 
