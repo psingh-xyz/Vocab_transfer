@@ -9,6 +9,11 @@ from datasets import load_from_disk
 import re
 from bs4 import BeautifulSoup
 
+from datasets import load_dataset
+
+dataset = load_dataset("ohsumed")
+dataset = load_dataset("quora")
+
 
 class BPEDropout:
     def __init__(self, sp, alpha):
@@ -32,7 +37,7 @@ class wikiADataset(Dataset):
             for text in filtered_texts:
                 f.write(f'{text}\n')
 
-    def __init__(self, sp, input_pth='/content/ChangeTokenization/en_wiki.txt', block_size=256):
+    def __init__(self, sp, input_pth='/content/thesis/Dataset/en_wiki', block_size=256):
         with open(input_pth) as f:
             data = f.readlines()
         self.examples = []
@@ -116,6 +121,7 @@ class SentimentCLFDataset(Dataset):
 
 
 class HyperpartisanMLMDataset(Dataset):
+    path= '/content/thesis/Dataset/hyperpartisan.xml'
     @staticmethod
     def _get_texts(path, save):
         ds = load_from_disk(path)
@@ -152,6 +158,7 @@ class HyperpartisanMLMDataset(Dataset):
 
 
 class HyperpartisanCLFDataset(Dataset):
+    path = '/content/thesis/Dataset/hyperpartisan.xml'
     def __init__(self, path, sp, train=False):
         df = load_from_disk(path)
         if train:
@@ -179,20 +186,21 @@ class HyperpartisanCLFDataset(Dataset):
 
 
 class QuoraMLMDataset(Dataset):
+    path= "/content/thesis/Dataset/quora_dataset.csv"
     @staticmethod
     def _get_texts(path, save):
         df = pd.read_csv(path)
         df.question_text = df.question_text.fillna(" ")
-        texts = df['question_text'][:1000000]
+        texts = df['text'][:1000000]
 
         with open(save, 'w') as f:
             for text in texts:
                 f.write(f'{text}\n')
 
     def __init__(self, path, sp, block_size=256):
-        df = pd.read_csv(f'{path}/train.csv')
+        df = pd.read_csv(f'{path}')
         df.question_text = df.question_text.fillna(" ")
-        data = df['question_text'][:1000000] #train
+        data = df['text'][:1000000] #train
         self.examples = []
         self.target = []
         for row in tqdm(data):
@@ -215,15 +223,16 @@ class QuoraMLMDataset(Dataset):
 
 
 class QuoraCLFDataset(Dataset):
+    path= "/content/thesis/Dataset/quora_dataset.csv"
     def __init__(self, path, sp, train=False):
-        df = pd.read_csv(f'{path}/train.csv')
+        df = pd.read_csv(f'{path}')
         df.question_text = df.question_text.fillna(" ")
         if train:
-            data = df['question_text'].values[:1000000]
-            labels = df['target'].values[:1000000]
+            data = df['text'].values[:1000000]
+            labels = df['id'].values[:1000000]
         else:
-            data = df['question_text'].values[1000000:]
-            labels = df['target'].values[1000000:]
+            data = df['text'].values[1000000:]
+            labels = df['id'].values[1000000:]
         self.examples = []
         self.target = []
         i = 0
@@ -326,7 +335,7 @@ class IllnessDataset(Dataset):
                 f.write(f'{line}\n')
 
     def __init__(self, sp, train, block_size=256):
-        path = '/content/ChangeTokenization/medical'
+        path = '/content/thesis/Dataset/medical_text'
 
         data = pd.read_csv(path, delimiter='\t', header=None)
         train_size = int(len(data) * 0.8)
