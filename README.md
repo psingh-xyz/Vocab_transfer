@@ -18,19 +18,27 @@ Step6: finetune the model
 
 ### Steps to follow:
 
-1.run common.py file
+1. python .\vocabulary_transfer_of_medical_text\scripts\step1.py --dataset .\datasets\data1_en_wiki\en_wiki.txt --prefix .\output\step1\en_wiki_8k --tok-type
+unigram --vocab_size 8000
 
-2.In data_utils file: use en_wiki dataset and medical text dataset and run
+2. python .\vocabulary_transfer_of_medical_text\scripts\step1.py --dataset .\datasets\data2_en_medical\train.dat --prefix .\output\step1\en_medical_8k --tok-type unigram --vocab_size 8000
 
-3.run step1 as it is and in command line provide the vocab size using code: !python /content/thesis/step1.py  --dataset /content/thesis/en_wiki.txt --prefix wiki_8k --tok-type unigram --vocab_size 8000
-from this step two file will be obtained. 1. wiki_8k.model 2. wiki_8k.vocab
+3. python .\vocabulary_transfer_of_medical_text\scripts\step1.py --dataset .\datasets\data3_ohsumed\train.txt --prefix .\output\step1\ohsumed_8k --tok-type unigram --vocab_size 8000
 
-4.run step1 for medical_text also. code: !python /content/thesis/step1.py  --dataset /content/thesis/medical/train.dat --prefix medical_8k --tok-type unigram --vocab_size 8000
-from this step two file will be obtained. 1. medical_8k.model 2. medical_8k.vocab
+4. python .\vocabulary_transfer_of_medical_text\scripts\step2.py --dataset_pth .\datasets\data1_en_wiki\en_wiki.txt --snp_path .\output\step1\en_wiki_8k.model --save_path ./output/step2/models/rawBert_rawTokenizer/
 
-5.for step2 in argument parsing --snp_path add the file path of wiki_8k.model obtained from step1. From this step a bert model folder will be obtained as output.
+5.  python .\vocabulary_transfer_of_medical_text\scripts\step3.py --wiki_vocab .\output\step1\en_wiki_8k.vocab --task_vocab .\output\step1\en_medical_8k.vocab --out_vocab .\output\step3\wiki_medical_8k --matcher 1
 
-6.for step3 add the wiki_8k.vocab and medica_8k.vocab file path obtained from step1. run the step3 two times. 1 parser.add_argument('--matcher', type=int, default=1) and default=2.two output file of vocab matcher will be obtained as _f1.tsv and _f2.tsv
+6.  python .\vocabulary_transfer_of_medical_text\scripts\step3.py --wiki_vocab .\output\step1\en_wiki_8k.vocab --task_vocab .\output\step1\en_medical_8k.vocab --out_vocab .\output\step3\wiki_medical_8k --matcher 2
 
-7. for step4 and the two tsv file obtained from step 3 and bert model path obtained from step2.
+7.  python .\vocabulary_transfer_of_medical_text\scripts\step3.py --wiki_vocab .\output\step1\en_wiki_8k.vocab --task_vocab .\output\step1\ohsumed_8k.vocab --out_vocab .\output\step3\wiki_ohsumed_8k --matcher 1
 
+8.  python .\vocabulary_transfer_of_medical_text\scripts\step3.py --wiki_vocab .\output\step1\en_wiki_8k.vocab --task_vocab .\output\step1\ohsumed_8k.vocab --out_vocab .\output\step3\wiki_ohsumed_8k --matcher 2
+
+9. python .\vocabulary_transfer_of_medical_text\scripts\step4.py --mapping_file_1 .\output\step3\wiki_ohsumed_8k_matcher_f1.tsv --mapping_file_2 .\output\step3\wiki_ohsumed_8k_matcher_f2.tsv --source_bert_model .\output\step2\models\rawBert_rawTokenizer\Bert_Wiki_8k --save_pht .\output\step4\wiki_ohsumed_8k\
+
+10. python .\vocabulary_transfer_of_medical_text\scripts\step4.py --mapping_file_1 .\output\step3\wiki_medical_8k_matcher_f1.tsv --mapping_file_2 .\output\step3\wiki_medical_8k_matcher_f2.tsv --source_bert_model .\output\step2\models\rawBert_rawTokenizer\Bert_Wiki_8k --save_pht .\output\step4\wiki_medical_8k\
+    
+11. python .\vocabulary_transfer_of_medical_text\scripts\step5.py --dataset_name quora_dataset --experiment_folder avg --sp .\output\step1\en_medical_8k.model --experiments_dir wiki_medical_8k --root_dir .\output\step4\
+
+12. python .\vocabulary_transfer_of_medical_text\scripts\step5.py --dataset_name quora_dataset --experiment_folder random --sp .\output\step1\en_medical_8k.model --experiments_dir wiki_medical_8k --root_dir .\output\step4\
