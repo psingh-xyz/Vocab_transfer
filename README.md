@@ -42,3 +42,6 @@ unigram --vocab_size 8000
 11. python .\vocabulary_transfer_of_medical_text\scripts\step5.py --dataset_name quora_dataset --experiment_folder avg --sp .\output\step1\en_medical_8k.model --experiments_dir wiki_medical_8k --root_dir .\output\step4\
 
 12. python .\vocabulary_transfer_of_medical_text\scripts\step5.py --dataset_name quora_dataset --experiment_folder random --sp .\output\step1\en_medical_8k.model --experiments_dir wiki_medical_8k --root_dir .\output\step4\
+
+13. python .\vocabulary_transfer_of_medical_text\scripts\step6.py --dataset_name quora_dataset --experiment_folder random --sp_model_pth .\output\step1\en_medical_8k.model --experiments_dir .\output\step4\wiki_medical_8k_2mlm --save_dir
+ .\output\step6
