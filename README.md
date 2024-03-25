@@ -8,7 +8,7 @@ Step1: Prepare tokenization.
 
 Step2: Pretrain the model. 
 
-Step3: cretae the matched voacbulary file
+Step3: cretae the matched vocabulary file
 
 Step4: mapping of old tokens with the new one
 
