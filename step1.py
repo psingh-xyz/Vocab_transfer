@@ -7,7 +7,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, required=True)
     parser.add_argument('--prefix', type=str, required=True)
-    parser.add_argument('--tok-type', type=str, choices=['unigram', 'bpe'])
+    parser.add_argument('--tok-type', type=str, choices=['unigram', 'bpe', 'wordpiece'])
     parser.add_argument('--vocab_size', type=int, required=True)
     return parser.parse_args()
 
@@ -17,7 +17,7 @@ def create_vocab(dataset_pth, prefix, vocab_size, tok_type):
     print(dataset_pth, prefix, vocab_size)
     spm.SentencePieceTrainer.train(
         f"--input={dataset_pth} --model_prefix={prefix}  --vocab_size={vocab_size} \
-        --pad_id=0 --unk_id=1 --bos_id=2 --eos_id=3 --model_type={tok_type} \
+        --pad_id=0 --unk_id=1 --bos_id=2 --eos_id=3 --model_type=word \
         --pad_piece=[PAD] --unk_piece=[UNK] --bos_piece=[BOS] --eos_piece=[EOS] \
         --user_defined_symbols=[CLS],[SEP],[MASK]")
 
@@ -31,3 +31,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
