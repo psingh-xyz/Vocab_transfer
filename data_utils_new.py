@@ -34,7 +34,7 @@ class wikiADataset(Dataset):
             for text in filtered_texts:
                 f.write(f'{text}\n')
 
-    def __init__(self, sp, input_pth='/content/ChangeTokenization/en_wiki.txt', block_size=256):
+    def __init__(self, sp, input_pth='/content/thesis/Dataset/en_wiki/en_wiki.txt', block_size=256):
         with open(input_pth, encoding='utf-8') as f:
             data = f.readlines()
         self.examples = []
@@ -183,18 +183,18 @@ class HyperpartisanCLFDataset(Dataset):
 class QuoraMLMDataset(Dataset):
     @staticmethod
     def _get_texts(path, save):
-        df = pd.read_csv(r"C:\Users\Tomar\dev\PS\thesis\datasets\quora\quora_dataset.csv")
+        df = pd.read_csv(r"/content/thesis/Dataset/quora_dataset.csv")
         df.questions = df.questions.fillna(" ")
-        texts = df['questions'][:1000000]
+        texts = df['questions'][:100000]
 
         with open(save, 'w') as f:
             for text in texts:
                 f.write(f'{text}\n')
 
     def __init__(self, path, sp, block_size=256):
-        df = pd.read_csv(r"C:\Users\Tomar\dev\PS\thesis\datasets\quora\quora_dataset.csv")
+        df = pd.read_csv(r"/content/thesis/Dataset/quora_dataset.csv")
         df.questions = df.questions.fillna(" ")
-        data = df['questions'][:1000000] #train
+        data = df['questions'][:100000] #train
         self.examples = []
         self.target = []
         for row in tqdm(data):
@@ -228,7 +228,7 @@ class QuoraCLFDataset(Dataset):
     #         labels = df['is_duplicate'].values[1000000:]
             
     def __init__(self, path, sp, train=True):
-        df = pd.read_csv(r"C:\Users\Tomar\dev\PS\thesis\datasets\quora\quora_dataset.csv")
+        df = pd.read_csv(r"/content/thesis/Dataset/quora_dataset.csv")
         df.questions = df.questions.fillna(" ")
 
         total_size = len(df)
@@ -348,7 +348,7 @@ class IllnessDataset(Dataset):
                 f.write(f'{line}\n')
 
     def __init__(self, sp, train, block_size=256):
-        path = '/content/ChangeTokenization/medical'
+        path = '/content/thesis/Dataset/medical_text'
 
         data = pd.read_csv(path, delimiter='\t', header=None)
         train_size = int(len(data) * 0.8)
@@ -368,4 +368,6 @@ class IllnessDataset(Dataset):
 
     def __getitem__(self, i):
         return torch.tensor(self.tokenized_text[i], dtype=torch.long), torch.tensor(int(self.target[i]))
+
+
 
