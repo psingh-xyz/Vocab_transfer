@@ -11,9 +11,9 @@ from torch.utils.data import RandomSampler
 from torch.nn.modules.linear import Linear
 
 from common import check_dir
-from data_utils import QuoraCLFDataset, SentimentCLFDataset, HyperpartisanCLFDataset, BPEDropout
+from data_utils_new import QuoraCLFDataset, SentimentCLFDataset, HyperpartisanCLFDataset, BPEDropout
 
-data_path = "C:/Users/Tomar/dev/PS/thesis/quora_dataset"
+data_path = "/content/thesis/Dataset/quora_dataset.csv"
 
 def parse_args():
     parser = argparse.ArgumentParser()
