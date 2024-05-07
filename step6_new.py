@@ -159,6 +159,20 @@ def main():
                 test_loss.append(loss.item())
                 tmp_epoch_test_loss += loss.item()
 
+                          # Measure inference time after training and validation are complete
+            num_batches_to_measure = 10  # You can adjust this number
+            start_time = time.time()
+        with torch.no_grad():
+           for i, batch in enumerate(test_dataloader):
+              if i >= num_batches_to_measure:
+                break
+              inputs, labels = batch
+              inputs = inputs.to(device)
+              labels = labels.to(device)
+              model(inputs, labels=labels)
+              elapsed_time = time.time() - start_time
+              print(f"Time taken for {num_batches_to_measure} batches: {elapsed_time:.3f} seconds")
+
         epoch_train_acc.append(100 * float(tmp_epoch_train_acc) / float(len(BPEDataset_train)))
         epoch_train_loss.append(tmp_epoch_train_loss / len(train_dataloader))
 
