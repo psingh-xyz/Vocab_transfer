@@ -17,7 +17,7 @@ def create_vocab(dataset_pth, prefix, vocab_size, tok_type):
     print(dataset_pth, prefix, vocab_size)
     spm.SentencePieceTrainer.train(
         f"--input={dataset_pth} --model_prefix={prefix}  --vocab_size={vocab_size} \
-        --pad_id=0 --unk_id=1 --bos_id=2 --eos_id=3 --model_type=word \
+        --pad_id=0 --unk_id=1 --bos_id=2 --eos_id=3 --model_type={tok_type} \
         --pad_piece=[PAD] --unk_piece=[UNK] --bos_piece=[BOS] --eos_piece=[EOS] \
         --user_defined_symbols=[CLS],[SEP],[MASK]")
 
