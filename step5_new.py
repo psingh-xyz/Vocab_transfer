@@ -10,7 +10,7 @@ from transformers import BertForMaskedLM
 from transformers import get_linear_schedule_with_warmup, AdamW
 import sentencepiece as spm
 
-from data_utils import QuoraMLMDataset, SentimentMLMDataset, HyperpartisanMLMDataset
+from data_utils_new import QuoraMLMDataset, SentimentMLMDataset, HyperpartisanMLMDataset
 from common import check_dir, mask_tokens
 
 
