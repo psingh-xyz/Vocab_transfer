@@ -184,8 +184,8 @@ class QuoraMLMDataset(Dataset):
     @staticmethod
     def _get_texts(path, save):
         df = pd.read_csv(r"/content/thesis/Dataset/quora_dataset.csv")
-        df.questions = df.questions.fillna(" ")
-        texts = df['questions'][:100000]
+        df.question_text = df.question_text.fillna(" ")
+        texts = df['question_text'][:100000]
 
         with open(save, 'w') as f:
             for text in texts:
@@ -193,8 +193,8 @@ class QuoraMLMDataset(Dataset):
 
     def __init__(self, path, sp, block_size=256):
         df = pd.read_csv(r"/content/thesis/Dataset/quora_dataset.csv")
-        df.questions = df.questions.fillna(" ")
-        data = df['questions'][:100000] #train
+        df.question_text = df.question_text.fillna(" ")
+        data = df['question_text'][:100000] #train
         self.examples = []
         self.target = []
         for row in tqdm(data):
@@ -229,7 +229,7 @@ class QuoraCLFDataset(Dataset):
             
     def __init__(self, path, sp, train=True):
         df = pd.read_csv(r"/content/thesis/Dataset/quora_dataset.csv")
-        df.questions = df.questions.fillna(" ")
+        df.question_text = df.question_text.fillna(" ")
 
         total_size = len(df)
         train_size = int(total_size * 0.8)  # 80% for training
@@ -237,11 +237,11 @@ class QuoraCLFDataset(Dataset):
         test_size = int(dev_test_size / 2)
 
         if train:
-            data = df['questions'].values[:train_size]
-            labels = df['is_duplicate'].values[:train_size]
+            data = df['question_text'].values[:train_size]
+            labels = df['target'].values[:train_size]
         else:
-            data = df['questions'].values[train_size:train_size + test_size]  # For development set
-            labels = df['is_duplicate'].values[train_size:train_size + test_size]
+            data = df['question_text'].values[train_size:train_size + test_size]  # For development set
+            labels = df['target'].values[train_size:train_size + test_size]
 
         print(f"Q1 Data length: {len(data)}")  # Debug print
         print(f"Q2 Labels length: {len(labels)}")  # Debug print
