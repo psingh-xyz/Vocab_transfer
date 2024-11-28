@@ -1,47 +1,48 @@
-# Thesis
 
-### Description:
+# Vocabulary Transfer for Biomedical Texts
 
-data_utils.py: defines all dataset used
+## Overview
 
-Step1: Prepare tokenization. 
+This work addresses the critical challenge of limited data in medical Natural Language Processing (NLP) by introducing a novel vocabulary transfer technique. The study focuses on expanding and adapting tokenization strategies for biomedical texts, demonstrating how vocabulary extension can significantly improve model performance in domains with scarce data.
 
-Step2: Pretrain the model. 
+## Key Features
 
-Step3: create the matched vocabulary file
+- Domain-specific vocabulary expansion
+- Innovative tokenization adaptation for medical texts
+- Masked Language Modeling (MLM) intermediate step
+- Applicable to low-resource NLP domains
+- Improvements in both model accuracy and inference time
 
-Step4: mapping of old tokens with the new one
+## Key Findings
 
-Step5: Pretrain the model on the new dataset
+- Increasing vocabulary size leads to measurable performance improvements
+- Intermediate MLM step crucial for model adaptation
+- Potential to reduce inference time in medical NLP tasks
+- Demonstrated effectiveness on medical text classification datasets
+- Promising approach for other domain-specific NLP challenges
 
-Step6: finetune the model
+## Methodology
 
-### Steps to follow:
+Our approach involves the following steps:
 
-1. python .\vocabulary_transfer_of_medical_text\scripts\step1.py --dataset .\datasets\data1_en_wiki\en_wiki.txt --prefix .\output\step1\en_wiki_8k --tok-type
-unigram --vocab_size 8000
+1. Domain-specific vocabulary expansion
+2. Tokenization adaptation for medical texts
+3. Masked Language Modeling (MLM) intermediate step
+4. Fine-tuning on target biomedical datasets
 
-2. python .\vocabulary_transfer_of_medical_text\scripts\step1.py --dataset .\datasets\data2_en_medical\train.dat --prefix .\output\step1\en_medical_8k --tok-type unigram --vocab_size 8000
+## Datasets Used
 
-3. python .\vocabulary_transfer_of_medical_text\scripts\step1.py --dataset .\datasets\data3_ohsumed\train.txt --prefix .\output\step1\ohsumed_8k --tok-type unigram --vocab_size 8000
+We employed two primary datasets for our research:
 
-4. python .\vocabulary_transfer_of_medical_text\scripts\step2.py --dataset_pth .\datasets\data1_en_wiki\en_wiki.txt --snp_path .\output\step1\en_wiki_8k.model --save_path ./output/step2/models/rawBert_rawTokenizer/
+1. OHSUMED: Medical dataset for cardiovascular disease classification
+   - Contains abstracts of PubMed documents from 23 cardiovascular disease classes
+   - Used for evaluating the effectiveness of our vocabulary transfer technique
 
-5.  python .\vocabulary_transfer_of_medical_text\scripts\step3.py --wiki_vocab .\output\step1\en_wiki_8k.vocab --task_vocab .\output\step1\en_medical_8k.vocab --out_vocab .\output\step3\wiki_medical_8k --matcher 1
+2. Kaggle Medical Texts Dataset: Classification of various patient conditions
+   - Includes a wide range of medical conditions beyond cardiovascular diseases
+   - Utilized to test the generalizability of our approach across different medical domains
+  
+## Paper
 
-6.  python .\vocabulary_transfer_of_medical_text\scripts\step3.py --wiki_vocab .\output\step1\en_wiki_8k.vocab --task_vocab .\output\step1\en_medical_8k.vocab --out_vocab .\output\step3\wiki_medical_8k --matcher 2
+Published at: [https://arxiv.org/html/2208.02554v3](https://arxiv.org/html/2208.02554v3)
 
-7.  python .\vocabulary_transfer_of_medical_text\scripts\step3.py --wiki_vocab .\output\step1\en_wiki_8k.vocab --task_vocab .\output\step1\ohsumed_8k.vocab --out_vocab .\output\step3\wiki_ohsumed_8k --matcher 1
-
-8.  python .\vocabulary_transfer_of_medical_text\scripts\step3.py --wiki_vocab .\output\step1\en_wiki_8k.vocab --task_vocab .\output\step1\ohsumed_8k.vocab --out_vocab .\output\step3\wiki_ohsumed_8k --matcher 2
-
-9. python .\vocabulary_transfer_of_medical_text\scripts\step4.py --mapping_file_1 .\output\step3\wiki_ohsumed_8k_matcher_f1.tsv --mapping_file_2 .\output\step3\wiki_ohsumed_8k_matcher_f2.tsv --source_bert_model .\output\step2\models\rawBert_rawTokenizer\Bert_Wiki_8k --save_pht .\output\step4\wiki_ohsumed_8k\
-
-10. python .\vocabulary_transfer_of_medical_text\scripts\step4.py --mapping_file_1 .\output\step3\wiki_medical_8k_matcher_f1.tsv --mapping_file_2 .\output\step3\wiki_medical_8k_matcher_f2.tsv --source_bert_model .\output\step2\models\rawBert_rawTokenizer\Bert_Wiki_8k --save_pht .\output\step4\wiki_medical_8k\
-    
-11. python .\vocabulary_transfer_of_medical_text\scripts\step5.py --dataset_name quora_dataset --experiment_folder avg --sp .\output\step1\en_medical_8k.model --experiments_dir wiki_medical_8k --root_dir .\output\step4\
-
-12. python .\vocabulary_transfer_of_medical_text\scripts\step5.py --dataset_name quora_dataset --experiment_folder random --sp .\output\step1\en_medical_8k.model --experiments_dir wiki_medical_8k --root_dir .\output\step4\
-
-13. python .\vocabulary_transfer_of_medical_text\scripts\step6.py --dataset_name quora_dataset --experiment_folder random --sp_model_pth .\output\step1\en_medical_8k.model --experiments_dir .\output\step4\wiki_medical_8k_2mlm --save_dir
- .\output\step6
